@@ -1,19 +1,10 @@
 - name: "Деплой Docker-образов с помощью Ansible"
   hosts: all
+  become: true
   gather_facts: true
 
   tasks:
-    - name: Docker install
+    - name: Install Docker (geerlingguy.docker)
       ansible.builtin.include_role:
-        name: docker_install
-      tags: req
-
-    - name: Redmine install
-      when: "'webservers' in group_names"
-      ansible.builtin.include_role:
-        name: redmine_install
-
-    - name: Nginx install
-      when: "'load_balancer' in group_names"
-      ansible.builtin.include_role:
-        name: nginx_install
+        name: geerlingguy.docker
+      tags: docker
