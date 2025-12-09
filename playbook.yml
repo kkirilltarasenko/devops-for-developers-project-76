@@ -1,0 +1,10 @@
+- name: "Деплой Docker-образов с помощью Ansible"
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Install Docker (geerlingguy.docker)
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      tags: docker
