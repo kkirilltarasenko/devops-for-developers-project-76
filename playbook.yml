@@ -37,4 +37,5 @@
         restart_policy: always
         ports:
           - "{{ redmine_port }}:3000"
+          - "3000:3000"
         env_file: /root/redmine.env
