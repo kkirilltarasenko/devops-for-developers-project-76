@@ -1,41 +1,25 @@
-- name: "Deploy Docker"
+- name: Deploy Docker
   hosts: webservers
   become: true
   gather_facts: true
   tags: [install]
 
-  tasks:
-    - name: Install Docker (geerlingguy.docker)
-      ansible.builtin.include_role:
-        name: geerlingguy.docker
-      tags: docker
+  roles:
+    - docker
 
 - name: Deploy Redmine application
   hosts: all
   become: true
   tags: [deploy]
 
-  tasks:
-    - name: Create .env file from template
-      ansible.builtin.template:
-        src: templates/redmine.env.j2
-        dest: /root/redmine.env
-        mode: "0600"
+  roles:
+    - redmine
 
-    - name: Allow Redmine traffic through firewall
-      community.general.ufw:
-        rule: allow
-        port: "{{ redmine_port }}"
-        proto: tcp
-      when: inventory_hostname != 'localhost'
+- name: Setup nginx
+  hosts: webservers
+  become: true
+  gather_facts: true
+  tags: [nginx]
 
-    - name: Run Redmine container
-      community.docker.docker_container:
-        name: redmine
-        image: redmine:latest
-        state: started
-        restart_policy: always
-        ports:
-          - "{{ redmine_port }}:3000"
-          - "3000:3000"
-        env_file: /root/redmine.env
+  roles:
+    - nginx

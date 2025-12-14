@@ -1,0 +1,22 @@
+- name: Create .env file from template
+  ansible.builtin.template:
+    src: redmine.env.j2
+    dest: /root/redmine.env
+    mode: "0600"
+
+- name: Allow Redmine traffic through firewall
+  community.general.ufw:
+    rule: allow
+    port: "{{ redmine_port }}"
+    proto: tcp
+  when: inventory_hostname != 'localhost'
+
+- name: Run Redmine container
+  community.docker.docker_container:
+    name: redmine
+    image: redmine:latest
+    state: started
+    restart_policy: always
+    ports:
+      - "{{ redmine_port }}:3000"
+    env_file: /root/redmine.env
