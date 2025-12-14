@@ -9,6 +9,14 @@
     path: /etc/nginx/sites-available/default
     state: absent
 
+- name: Ensure webroot for Let's Encrypt exists
+  ansible.builtin.file:
+    path: /var/www/html/.well-known/acme-challenge
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+
 - name: Create nginx site config
   ansible.builtin.copy:
     dest: "/etc/nginx/sites-available/{{ app_domain }}"
