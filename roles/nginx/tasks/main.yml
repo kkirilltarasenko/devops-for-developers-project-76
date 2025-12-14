@@ -1,3 +1,9 @@
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
 - name: Remove default site from sites-available
   ansible.builtin.file:
     path: /etc/nginx/sites-available/default
@@ -39,11 +45,11 @@
     dest: /etc/nginx/nginx.conf
     content: |
       events {
-          worker_connection 1024;
+          worker_connections 1024;
       }
 
       http {
-          include /etc/nginx/sites-enabled/*
+          include /etc/nginx/sites-enabled/*;
       }
     owner: root
     group: root
@@ -52,5 +58,8 @@
 - name: Test nginx configuration
   ansible.builtin.command: nginx -t
 
-- name: Reload nginx
-  ansible.builtin.command: nginx -s reload
+- name: Restart nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+    enabled: true

@@ -2,7 +2,7 @@
   hosts: webservers
   become: true
   gather_facts: true
-  tags: [install]
+  tags: [docker]
 
   roles:
     - docker
