@@ -8,8 +8,3 @@ deploy:
 
 nginx:
 	ansible-playbook -i inventory.ini playbook.yml --tags nginx --vault-password-file $(VAULT_PASS_FILE)
-
-setup:
-	ansible-playbook -i inventory.ini playbook.yml --tags nginx --vault-password-file $(VAULT_PASS_FILE)
-	ansible-playbook -i inventory.ini playbook.yml --tags docker --vault-password-file $(VAULT_PASS_FILE)
-	ansible-playbook -i inventory.ini playbook.yml --tags deploy --vault-password-file $(VAULT_PASS_FILE)
