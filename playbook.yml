@@ -23,3 +23,12 @@
 
   roles:
     - nginx
+
+- name: Deploy Datadog agent
+  hosts: webservers
+  become: true
+  gather_facts: true
+  tags: [datadog]
+
+  roles:
+    - datadog

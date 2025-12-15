@@ -1,0 +1,32 @@
+- name: Remove potentially corrupted Datadog keyring
+  ansible.builtin.file:
+    path: /usr/share/keyrings/datadog-archive-keyring.gpg
+    state: absent
+  ignore_errors: true
+  when: ansible_os_family == 'Debian'
+
+- name: Import the Datadog Agent role from the Datadog collection
+  import_role:
+    name: datadog.dd.agent
+
+- name: Create http_check config directory
+  ansible.builtin.file:
+    path: /etc/datadog-agent/conf.d/http_check.d
+    state: directory
+    mode: "0755"
+
+- name: Deploy http_check configuration from template
+  ansible.builtin.copy:
+    dest: /etc/datadog-agent/conf.d/http_check.d/conf.yaml
+    content: |
+      instances:
+        - name: "HTTP Check"
+          url: "http://localhost:3000"
+    mode: "0644"
+
+- name: Restart Datadog Agent
+  ansible.builtin.systemd:
+    name: datadog-agent
+    state: restarted
+    enabled: true
+  when: ansible_service_mgr == 'systemd'
