@@ -25,7 +25,7 @@ Create Ansible Vault Password File
 Before running any playbooks, create a file vault_pass.txt with your Ansible Vault password:
 
 ```bash
-|echo '<your-vault-password>' > vault_pass.txt
+echo '<your-vault-password>' > vault_pass.txt
 ```
 
 Note: Replace <your-vault-password> with your actual Vault password. Keep this file secure.
