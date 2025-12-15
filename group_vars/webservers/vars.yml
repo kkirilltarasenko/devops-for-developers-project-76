@@ -1,0 +1,6 @@
+db_postgres: rc1b-q4h3jvp0nm6d9ooh.mdb.yandexcloud.net,rc1d-l9bhdkotte5q34dl.mdb.yandexcloud.net
+db_database: db1
+db_username: kirillt
+db_password: ZFRgwc86QsL2EEa
+db_port: 6432
+vault_datadog_api_key: 88a2bf08e5940eae2a7a6bdcf9dc9833
