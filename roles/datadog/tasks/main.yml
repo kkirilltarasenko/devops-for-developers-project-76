@@ -7,7 +7,7 @@
 
 - name: Import the Datadog Agent role from the Datadog collection
   import_role:
-    name: datadog.datadog
+    name: datadog.dd.agent
 
 - name: Create http_check config directory
   ansible.builtin.file:
