@@ -64,9 +64,9 @@
     mode: "0644"
 
 - name: Test nginx configuration
-  ansible.builtin.command:
-    cmd: nginx -t
-  check_mode: yes
+  ansible.builtin.shell: nginx -t
+  warn: false
+  changed_when: false
 
 - name: Restart nginx
   ansible.builtin.service:
