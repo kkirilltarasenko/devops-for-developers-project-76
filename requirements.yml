@@ -1,4 +1,6 @@
 roles:
   - name: geerlingguy.pip
   - name: geerlingguy.docker
-  - name: datadog.dd.agent
+collections:
+  - name: datadog.datadog
+    version: ">=4.0.0"
