@@ -20,3 +20,4 @@
     ports:
       - "{{ redmine_port }}:3000"
     env_file: /root/redmine.env
+    use_cli: true
