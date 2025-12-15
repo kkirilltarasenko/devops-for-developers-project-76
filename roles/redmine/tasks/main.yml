@@ -11,6 +11,14 @@
     proto: tcp
   when: inventory_hostname != 'localhost'
 
+- name: Install Python dependencies for Docker module
+  pip:
+    name:
+      - requests
+      - docker
+    executable: /usr/bin/python3
+  become: true
+
 - name: Run Redmine container
   community.docker.docker_container:
     name: redmine
@@ -20,4 +28,3 @@
     ports:
       - "{{ redmine_port }}:3000"
     env_file: /root/redmine.env
-    use_cli: true
