@@ -62,3 +62,12 @@
     owner: root
     group: root
     mode: "0644"
+
+- name: Test nginx configuration
+  ansible.builtin.command: nginx -t
+
+- name: Restart nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+    enabled: true
