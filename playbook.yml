@@ -1,34 +1,32 @@
-- name: Deploy Docker
+- name: Prepare webservers
   hosts: webservers
   become: true
   gather_facts: true
-  tags: [docker]
 
   roles:
-    - docker
+    - role: geerlingguy.docker
+      when: install_docker
 
-- name: Deploy Redmine application
-  hosts: all
-  become: true
-  tags: [deploy]
+    - role: datadog.dd.agent
 
-  roles:
-    - redmine
+  tasks:
+    - name: Create Redmine env file
+      ansible.builtin.template:
+        src: redmine.env.j2
+        dest: /root/redmine.env
+        mode: "0600"
 
-- name: Setup nginx
-  hosts: webservers
-  become: true
-  gather_facts: true
-  tags: [nginx]
+    - name: Install Python dependencies for Docker module
+      ansible.builtin.pip:
+        name:
+          - requests
 
-  roles:
-    - nginx
-
-- name: Deploy Datadog agent
-  hosts: webservers
-  become: true
-  gather_facts: true
-  tags: [datadog]
-
-  roles:
-    - datadog
+    - name: Run Redmine container
+      community.docker.docker_container:
+        name: redmine
+        image: redmine:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "{{ redmine_port }}:3000"
+        env_file: /root/redmine.env
