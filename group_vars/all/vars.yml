@@ -4,9 +4,3 @@ ansible_ssh_private_key_file: ~/.ssh/ssh-key-1765287244855
 install_docker: false
 redmine_port: 8080
 app_domain: ktarasenko.online
-
-db_postgres: rc1b-q4h3jvp0nm6d9ooh.mdb.yandexcloud.net,rc1d-l9bhdkotte5q34dl.mdb.yandexcloud.net
-db_database: db1
-db_username: "{{ vault_db_username }}"
-db_password: "{{ vault_db_password }}"
-db_port: 6432
