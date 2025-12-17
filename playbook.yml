@@ -1,6 +1,6 @@
 ---
 - name: Install monitoring on all hosts
-  hosts: all
+  hosts: webservers
   become: true
   gather_facts: true
 
@@ -8,7 +8,7 @@
     - role: datadog.dd.agent
 
 - name: Prepare webservers
-  hosts: webservers
+  hosts: all
   become: true
   gather_facts: true
 
