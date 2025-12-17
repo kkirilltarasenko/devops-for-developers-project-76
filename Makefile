@@ -1,13 +1,20 @@
-VAULT_PASS_FILE=vault_pass.txt
+VAULT_PASS_FILE = vault_pass.txt
+INVENTORY = inventory.ini
+PLAYBOOK = playbook.yml
 
-docker:
-	ansible-playbook -i inventory.ini playbook.yml --tags docker --vault-password-file $(VAULT_PASS_FILE)
+ANSIBLE = ansible-playbook -i $(INVENTORY) $(PLAYBOOK) \
+	--vault-password-file $(VAULT_PASS_FILE)
+
+.PHONY: deploy docker datadog all
+
+all:
+	$(ANSIBLE)
 
 deploy:
-	ansible-playbook -i inventory.ini playbook.yml --tags deploy --vault-password-file $(VAULT_PASS_FILE)
+	$(ANSIBLE) --tags deploy
 
-nginx:
-	ansible-playbook -i inventory.ini playbook.yml --tags nginx --vault-password-file $(VAULT_PASS_FILE)
+docker:
+	$(ANSIBLE) --tags docker
 
 datadog:
-	ansible-playbook -i inventory.ini playbook.yml --tags datadog --vault-password-file $(VAULT_PASS_FILE)
+	$(ANSIBLE) --tags datadog

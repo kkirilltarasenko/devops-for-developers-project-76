@@ -21,7 +21,7 @@
       ansible.builtin.template:
         src: redmine.env.j2
         dest: /root/redmine.env
-        mode: "0600"
+        mode: u=rw,go=
 
     - name: Install Python dependencies for Docker module
       ansible.builtin.pip:
@@ -31,7 +31,7 @@
     - name: Run Redmine container
       community.docker.docker_container:
         name: redmine
-        image: redmine:latest
+        image: redmine:6.1.0
         state: started
         restart_policy: always
         ports:
