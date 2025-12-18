@@ -22,13 +22,10 @@ datadog:
 	$(ANSIBLE) --tags datadog
 
 view-vault:
-	ansible-vault view $(ALL_VARS) --vault-password-file $(VAULT_PASS_FILE)
 	ansible-vault view $(WEBSERVERS_VARS) --vault-password-file $(VAULT_PASS_FILE) 
 
 encrypt-vault:
-	ansible-vault encrypt $(ALL_VARS) --vault-password-file $(VAULT_PASS_FILE)
 	ansible-vault encrypt $(WEBSERVERS_VARS) --vault-password-file $(VAULT_PASS_FILE) 
 
 decrypt-vault:
-	ansible-vault decrypt $(ALL_VARS) --vault-password-file $(VAULT_PASS_FILE)
 	ansible-vault decrypt $(WEBSERVERS_VARS) --vault-password-file $(VAULT_PASS_FILE) 
